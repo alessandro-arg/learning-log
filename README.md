@@ -77,14 +77,6 @@ learning-log/
 
 ---
 
-### 📊 GitHub Activity
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com?user=alessandro-arg&theme=tokyonight&hide_border=true" />
-</p>
-
----
-
 ### 🪶 Author
 
 **Alessandro Argenziano**  
@@ -95,3 +87,4 @@ learning-log/
 <p align="center">
   <sub>✨ Built with curiosity and caffeine.</sub>
 </p>
+
