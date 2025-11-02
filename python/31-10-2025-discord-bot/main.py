@@ -21,6 +21,34 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print(f'Ready! I am {bot.user}')
 
+@bot.command()
+async def hallo(ctx):
+    await ctx.send(f"Grusse dich {ctx.author.mention}")
+
+@bot.command()
+async def msg(ctx, arg):
+    await ctx.send(f"Deine nachricht war {arg}")
+
+new_role = 'niceGuy'
+
+@bot.command()
+async def assign(ctx):
+    role = discord.utils.get(ctx.guild.roles, name=new_role)
+    if role:
+        await ctx.author.add_roles(role)
+        await ctx.send(f"Deine rolle wurde hinzugefuegt.")
+        return
+    await ctx.send(f"Die rolle wurde nicht gefunden")
+
+@bot.command()
+async def remove(ctx):
+    role = discord.utils.get(ctx.guild.roles, name=new_role)
+    if role:
+        await ctx.author.remove_roles(role)
+        await ctx.send(f"Deine rolle wurde entfernt.")
+        return
+    await ctx.send(f"Die rolle wurde nicht gefunden")
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
