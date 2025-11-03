@@ -60,9 +60,8 @@ learning-log/
 
 | Date | Topic | Notes |
 |------|--------|-------|
-| 2025-10-26 | Python Basics | Lists, Dicts, Loops |
-| 2025-10-27 | Django Setup | Created first project, ran server |
-| 2025-10-28 | Django URLs | Routing basics |
+| 2025-10-31 | Python Basics | Lists, Dicts, Loops |
+| 2025-10-31 | Django Basics | Created an virtual enviornment |
 | ... | ... | ... |
 
 ---
@@ -87,4 +86,5 @@ learning-log/
 <p align="center">
   <sub>✨ Built with curiosity and caffeine.</sub>
 </p>
+
 
