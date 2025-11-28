@@ -8,3 +8,35 @@ class Customer(models.Model):
     newsletter_abo = models.BooleanField(default=False)
     email_address = models.EmailField(default="", max_length=254)
     account = models.FloatField(blank=True, null=True)
+    # one-to-many Order
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+class Product(models.Model):
+    name = models.CharField(max_length=30)
+    price = models.FloatField(max_length=30)
+    # many-to-many Order
+
+    def __str__(self):
+        return f"{self.name} ({self.price})"
+
+class Bill(models.Model):
+    total_amount = models.FloatField(max_length=30)
+    is_paid = models.BooleanField(default=False)
+    # one-to-one Order
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, through="Producttype")
+    bill = models.OneToOneField(Bill, on_delete=models.CASCADE)
+    # many-to-one Customer
+    # one-to-one Bill
+
+class Producttype(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    type_name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return f"{self.type_name}"
