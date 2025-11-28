@@ -3,15 +3,25 @@ from django.db import models
 # Create your models here.
 
 class Customer(models.Model):
-    first_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30,error_messages="Something went wrong", help_text="max 30 charts")
     last_name = models.CharField(max_length=30)
     newsletter_abo = models.BooleanField(default=False)
     email_address = models.EmailField(default="", max_length=254)
     account = models.FloatField(blank=True, null=True)
+    slug = models.SlugField(blank=True, default="")
     # one-to-many Order
+
+    class Meta:
+        verbose_name="Customer"
+        verbose_name_plural="Customers"
+        ordering=["first_name"]
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def save(self):
+        self.account = 60500
+        return super().save()
 
 class Product(models.Model):
     name = models.CharField(max_length=30)
