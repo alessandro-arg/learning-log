@@ -6,7 +6,6 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ['first_name', 'last_name']
     list_display = ['first_name', 'last_name', 'email_address', 'account']
     search_fields = ['first_name', 'last_name']
-    prepopulated_fields = {'slug':['first_name', 'last_name']}
 
 
 
