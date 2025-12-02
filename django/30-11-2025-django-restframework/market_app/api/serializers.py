@@ -71,8 +71,8 @@ class ProductDetailSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     description = serializers.CharField()
     price = serializers.DecimalField(max_digits=50, decimal_places=2)
-    market = serializers.CharField(source='market.name', read_only=True)
-    seller = serializers.CharField(source='seller.name', read_only=True)
+    market = serializers.StringRelatedField(read_only=True)
+    seller = serializers.StringRelatedField(read_only=True)
 
 
 class ProductCreateSerializer(serializers.Serializer):
@@ -107,5 +107,20 @@ class ProductCreateSerializer(serializers.Serializer):
             market=market,
             seller=seller
         )
+
+        # Alternative to the create, with a similar
+        # method like in the ProductCreateSerializer
+
+        # market_id = validated_data.pop('market')
+        # seller_id = validated_data.pop('seller')
+
+        # market = Market.objects.get(id=market_id)
+        # seller = Seller.objects.get(id=seller_id)
+
+        # product = Product.objects.create(
+        #     market=market,
+        #     seller=seller,
+        #     **validated_data
+        # )
 
         return product
