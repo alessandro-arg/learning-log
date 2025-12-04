@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import markets_view, market_single_view, seller_view, product_view
+from .views import markets_view, market_single_view, seller_view, product_view, product_single_view, seller_single_view
 
 urlpatterns = [
     path('market/', markets_view),
     path('market/<int:pk>/', market_single_view),
     path('seller/', seller_view),
+    path('seller/<int:pk>/', seller_single_view, name='single_seller'),
     path('product/', product_view),
+    path('product/<int:pk>', product_single_view),
 ]
