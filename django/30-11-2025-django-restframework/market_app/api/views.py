@@ -3,6 +3,37 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import MarketSerializer, SellerDetailSerializer, ProductDetailSerializer
 from market_app.models import Market, Seller, Product
+from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import generics
+
+
+class MarketsView(generics.ListCreateAPIView):
+
+    ## Mixin class view ##
+    queryset = Market.objects.all()
+    serializer_class = MarketSerializer
+
+## get and post are already summarized inside of generics.ListCreateAPIView ##
+    # def get(self, request, *args, **kwargs):
+    #     return self.list(request, *args, **kwargs)
+
+    # def post(self, request, *args, **kwargs):
+    #     return self.create(request, *args, **kwargs)
+
+## Normal class view ##
+    # def get(self, request):
+    #     markets = Market.objects.all()
+    #     serializer = MarketSerializer(
+    #         markets, many=True, context={'request': request})
+    #     return Response(serializer.data)
+
+    # def post(self, request):
+    #     serializer = MarketSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])
@@ -21,6 +52,29 @@ def markets_view(request):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+
+
+class MarketSingleView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Market.objects.all()
+    serializer_class = MarketSerializer
+
+# class MarketSingleView(
+#     mixins.RetrieveModelMixin,
+#     mixins.UpdateModelMixin,
+#     mixins.DestroyModelMixin,
+#     generics.GenericAPIView,
+# ):
+#     queryset = Market.objects.all()
+#     serializer_class = MarketSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
@@ -55,6 +109,18 @@ def seller_single_view(request, pk):
         serializer = SellerDetailSerializer(
             seller, context={'request': request})
         return Response(serializer.data)
+
+
+class SellersView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+
+    queryset = Seller.objects.all()
+    serializer_class = SellerDetailSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 @api_view(['GET', 'POST'])
