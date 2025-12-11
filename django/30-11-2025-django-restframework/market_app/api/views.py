@@ -11,9 +11,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    # Alte version, mit ViewSet
 
-
+# Alte version, mit ViewSet
 class ProductViewSetOld(viewsets.ViewSet):
     queryset = Product.objects.all()
 
