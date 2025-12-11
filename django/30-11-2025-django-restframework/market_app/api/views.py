@@ -1,11 +1,44 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import MarketSerializer, SellerDetailSerializer, ProductDetailSerializer, SellerListSerializer
+from .serializers import ProductSerializer, MarketSerializer, SellerDetailSerializer, ProductDetailSerializer, SellerListSerializer
 from market_app.models import Market, Seller, Product
-from rest_framework.views import APIView
-from rest_framework import mixins
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import mixins, generics, viewsets
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    # Alte version, mit ViewSet
+
+
+class ProductViewSetOld(viewsets.ViewSet):
+    queryset = Product.objects.all()
+
+    def list(self, request):
+        serializer = ProductSerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        product = get_object_or_404(self.queryset, pk=pk)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+    def destroy(self, request, pk=None):
+        product = get_object_or_404(self.queryset, pk=pk)
+        serializer = ProductSerializer(product)
+        product.delete()
+        return Response(serializer.data)
 
 
 class MarketsView(generics.ListCreateAPIView):
