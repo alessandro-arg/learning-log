@@ -12,6 +12,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 
+class SellerViewSet(viewsets.ModelViewSet):
+    queryset = Seller.objects.all()
+    serializer_class = SellerDetailSerializer
+
+
 # Alte version, mit ViewSet
 class ProductViewSetOld(viewsets.ViewSet):
     queryset = Product.objects.all()
@@ -65,25 +70,25 @@ class SellerOfMarketList(generics.ListCreateAPIView):
         serializer.save(markets=[market])
 
 
-@api_view(['GET'])
-def seller_single_view(request, pk):
-    if request.method == 'GET':
-        seller = Seller.objects.get(pk=pk)
-        serializer = SellerDetailSerializer(
-            seller, context={'request': request})
-        return Response(serializer.data)
+# @api_view(['GET'])
+# def seller_single_view(request, pk):
+#     if request.method == 'GET':
+#         seller = Seller.objects.get(pk=pk)
+#         serializer = SellerDetailSerializer(
+#             seller, context={'request': request})
+#         return Response(serializer.data)
 
 
-class SellersView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+# class SellersView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 
-    queryset = Seller.objects.all()
-    serializer_class = SellerDetailSerializer
+#     queryset = Seller.objects.all()
+#     serializer_class = SellerDetailSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
 
 
 @api_view(['GET'])
